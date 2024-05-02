@@ -1,0 +1,22 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "https://k-devcon.com/",
+        "type": 302
+      },
+      {
+        "source": "/linkedin",
+        "destination": "https://jonghoonpark.com/2023/08/16/what-is-linkedin-and-how-can-i-use-it",
+        "type": 302
+      }
+    ]
+  }
+}
