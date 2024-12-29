@@ -9,28 +9,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-  add_secret_redirects:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: jsdaniell/create-json@v1.2.3
-        with:
-          name: "secret-redirects.json"
-          json: ${{ secrets.SECRET_REDIRECTS }}
-      - uses: mpmxyz/merge-json-with-template@latest
-        with:
-          source-file: "firebase.json"
-          target-file: "secret-redirects.json"
-
   deploy:
     runs-on: ubuntu-latest
+    environment: release
     steps:
-      - uses: actions/checkout@v4
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - name: Create secret-redirects.json
+        run: |
+          echo "$SECRET_REDIRECTS" > secret-redirects.json
+        env:
+          SECRET_REDIRECTS: ${{secrets.SECRET_REDIRECTS}}
+
+      - name: Merge secret-redirects.json into firebase.json
+        run: |
+          node merge-json.mjs
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_K_DEVCON }}
