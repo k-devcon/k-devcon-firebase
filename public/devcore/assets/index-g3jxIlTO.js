@@ -36,10 +36,21 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     </div>
   `}function S(){document.querySelectorAll(`.btn-toggle`).forEach(e=>{e.addEventListener(`click`,()=>{y.toggle(e.dataset.id)})})}var C=[{start:`13:00`,end:`13:45`},{start:`14:00`,end:`14:45`},{start:`15:00`,end:`15:45`},{start:`16:00`,end:`16:45`}],w=[`성균관`,`집현전`,`서원`,`국자감`,`화랑도&태백`],T=[`#7c3aed`,`#ea580c`,`#16a34a`,`#e11d48`,`#ca8a04`,`#0891b2`,`#6d28d9`,`#be185d`];function E(e){let t=0;for(let n=0;n<e.length;n++)t=(t<<5)-t+e.charCodeAt(n),t|=0;return Math.abs(t)}function D(e){return T[E(e)%T.length]}function O(){let e=new Map;return l.filter(e=>e.category===`발표`&&!e.isKeynote).forEach(t=>{e.set(`${t.startTime}-${t.room}`,t)}),e}function k(){let e=document.getElementById(`timetable-container`),t=y.getSelectedSessions(),n=new Map(t.map(e=>[e.id,e])),r=O(),i=t.find(e=>e.programType===`네트워킹`),a=`
     <div class="timetable" id="timetable-capture">
-      <div class="timetable-header">
-        <span class="tt-label">SESSION TIMETABLE</span>
-        <span class="tt-event">DEVCORE</span>
+      <div class="tt-hero">
+        <div class="tt-hero-top">
+          <span class="tt-hero-brand">DEVCORE 2026</span>
+          <span class="tt-hero-badge">MY TIMETABLE</span>
+        </div>
+        <div class="tt-hero-title">
+          나만의 시간표
+          <small>내가 고른 세션 ${t.filter(e=>e.category===`발표`&&!e.isKeynote).length}개</small>
+        </div>
+        <div class="tt-hero-meta">
+          <span>📅 2026.08.01 (토) 13:00~18:00</span>
+          <span>📍 AWS코리아</span>
+        </div>
       </div>
+      <div class="tt-card">
       <div class="timetable-grid">
         <div class="tt-corner"></div>
         ${w.map(e=>`<div class="tt-room-header">${e}</div>`).join(``)}
@@ -48,7 +59,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
         <span>${e.start}</span>
         <span>${e.end}</span>
       </div>
-    `;for(let t of w){let o=`${e.start}-${t}`,s=r.get(o);if(s&&n.has(s.id)){let e=D(s.id),t=s.title.length>20?s.title.slice(0,20)+`...`:s.title;a+=`
+    `;for(let t of w){let o=`${e.start}-${t}`,s=r.get(o);if(s&&n.has(s.id)){let e=D(s.id),t=s.title.length>28?s.title.slice(0,28)+`...`:s.title;a+=`
           <div class="tt-cell tt-filled" style="background-color: ${e}">
             <span class="tt-cell-title">${t}</span>
             <span class="tt-cell-speaker">${s.speaker}</span>
@@ -58,4 +69,11 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
               <span class="tt-networking-icon">💬</span>
               <span class="tt-cell-title">네트워킹</span>
             </div>
-          `:a+=`<div class="tt-cell tt-empty"><span class="tt-x">✕</span></div>`}}a+=`</div></div>`,e.innerHTML=a}var A=`modulepreload`,j=function(e){return`/devcore/`+e},M={},N=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}r=o(t.map(t=>{if(t=j(t,n),t=s(t),t in M)return;M[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:A,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})};function P(){let e=document.getElementById(`modal-overlay`),t=document.getElementById(`btn-timetable`),n=document.getElementById(`modal-close`),r=document.getElementById(`btn-download`);t.addEventListener(`click`,()=>{k(),e.hidden=!1,document.body.style.overflow=`hidden`}),n.addEventListener(`click`,i),e.addEventListener(`click`,t=>{t.target===e&&i()}),r.addEventListener(`click`,R);function i(){e.hidden=!0,document.body.style.overflow=``}}function F(){return/KAKAOTALK/i.test(navigator.userAgent)}function I(e){let t=e.toDataURL(`image/png`),n=window.open();n?(n.document.write(`<html><head><title>시간표 이미지</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;display:flex;flex-direction:column;align-items:center;background:#f5f5f5;padding:16px;"><p style="font-family:sans-serif;color:#666;margin-bottom:12px;">이미지를 길게 눌러 저장하세요</p><img src="${t}" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);" /></body></html>`),n.document.close()):location.href=t}function L(e){return new Promise((t,n)=>{e.toBlob(e=>{if(!e)return n();let r=URL.createObjectURL(e),i=document.createElement(`a`);i.download=`devcore-timetable.png`,i.href=r,document.body.appendChild(i),i.click(),document.body.removeChild(i),URL.revokeObjectURL(r),t()},`image/png`)})}async function R(){let e=document.getElementById(`timetable-capture`);if(e)try{let{default:t}=await N(async()=>{let{default:e}=await import(`./html2canvas-DJBSzcsn.js`).then(e=>c(e.default,1));return{default:e}},[]),n=await t(e,{backgroundColor:`#ffffff`,scale:2});if(F())I(n);else try{await L(n)}catch{I(n)}}catch{u(`다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.`)}}function z(){let e=y.getCount();document.getElementById(`selected-count`).textContent=e,document.getElementById(`btn-timetable`).disabled=e===0}function B(){b(),z()}y.onChange(B),y.init(),P();export{o as t};
+          `:a+=`<div class="tt-cell tt-empty"><span class="tt-free"></span></div>`}}a+=`
+      </div>
+      </div>
+      <div class="tt-foot">
+        <span class="tt-foot-tag">#DEVCORE2026 #K_DEVCON</span>
+        <span class="tt-foot-url">k-devcon.web.app/devcore</span>
+      </div>
+    </div>`,e.innerHTML=a}var A=`modulepreload`,j=function(e){return`/devcore/`+e},M={},N=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}r=o(t.map(t=>{if(t=j(t,n),t=s(t),t in M)return;M[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:A,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})};function P(){let e=document.getElementById(`modal-overlay`),t=document.getElementById(`btn-timetable`),n=document.getElementById(`modal-close`),r=document.getElementById(`btn-download`);t.addEventListener(`click`,()=>{k(),e.hidden=!1,document.body.style.overflow=`hidden`}),n.addEventListener(`click`,i),e.addEventListener(`click`,t=>{t.target===e&&i()}),r.addEventListener(`click`,R);function i(){e.hidden=!0,document.body.style.overflow=``}}function F(){return/KAKAOTALK/i.test(navigator.userAgent)}function I(e){let t=e.toDataURL(`image/png`),n=window.open();n?(n.document.write(`<html><head><title>시간표 이미지</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;display:flex;flex-direction:column;align-items:center;background:#f5f5f5;padding:16px;"><p style="font-family:sans-serif;color:#666;margin-bottom:12px;">이미지를 길게 눌러 저장하세요</p><img src="${t}" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);" /></body></html>`),n.document.close()):location.href=t}function L(e){return new Promise((t,n)=>{e.toBlob(e=>{if(!e)return n();let r=URL.createObjectURL(e),i=document.createElement(`a`);i.download=`devcore-timetable.png`,i.href=r,document.body.appendChild(i),i.click(),document.body.removeChild(i),URL.revokeObjectURL(r),t()},`image/png`)})}async function R(){let e=document.getElementById(`timetable-capture`);if(e)try{let{default:t}=await N(async()=>{let{default:e}=await import(`./html2canvas-B7KA3H8Y.js`).then(e=>c(e.default,1));return{default:e}},[]),n=await t(e,{backgroundColor:`#ffffff`,scale:2});if(F())I(n);else try{await L(n)}catch{I(n)}}catch{u(`다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.`)}}function z(){let e=y.getCount();document.getElementById(`selected-count`).textContent=e,document.getElementById(`btn-timetable`).disabled=e===0}function B(){b(),z()}y.onChange(B),y.init(),P();export{o as t};
