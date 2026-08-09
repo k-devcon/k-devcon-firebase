@@ -745,6 +745,9 @@ img, svg { max-width: 100%; }
   .site-nav a.is-active::after { display: none; }
   .site-nav__cta { text-align: center; }
 
+  /* 모바일에서는 카드가 좁아져 읽기 어려우므로 1열로 */
+  .values,
+  .programs { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -756,9 +759,6 @@ img, svg { max-width: 100%; }
   body { font-size: 16px; }
   html { scroll-padding-top: 76px; }
   .shell { padding-inline: 20px; }
-
-  .values,
-  .programs,
 
   .hero__actions .btn { flex: 1 1 100%; }
 
